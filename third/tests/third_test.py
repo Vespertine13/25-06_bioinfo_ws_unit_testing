@@ -28,3 +28,17 @@ def test_greeting_language_wrong_type():
 # remove the old test after you have completed the task
 # add your changes: git add third/tests/third_test.py
 # commit your changes using commit message conventions (https://inpred.github.io/24-03_bioinfo_ws/#19): git commit -m "test: <your commit message>"
+
+from contextlib import nullcontext
+
+@pytest.mark.parametrize(
+    "name, language, exception, want",
+    [
+        ("somename", "English", nullcontext(), "Hello somename!"),
+        (2, "English", pytest.raises(TypeError), None),
+        ("somename", 2, pytest.raises(TypeError), None)
+    ]
+)
+def test_greeting_para(name, language, exception, want):
+    with exception:
+        assert greeting(name, language) == want
